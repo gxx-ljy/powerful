@@ -1,0 +1,32 @@
+version: '3.3'
+# version的数字怎么定的，有空研究下
+services:
+  xinference:
+    image: harbor-ai.sunwoda-evb.com/x/xinference:v0.14.2
+    container_name: xinference_v0.14.2
+    environment:
+      - XINFERENCE_HOME=/root/.xinference
+      - XINFERENCE_MODEL_SRC=modelscope
+    volumes:
+      - /data/.xinference:/root/.xinference
+      - /data/xx:/data/xx
+      - /data/.cache/huggingface:/root/.cache/huggingface
+      - /data/.cache/modelscope:/root/.cache/modelscape
+    ports:
+      - "9997:9997"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    command: >
+      xinference-local -H 0.0.0.0
+    restart: always
+    
+
+# docker-compose写不明白啊，docker-compose up -d启动报错，gpu不会写，官网就这样写的呀https://docs.docker.com/compose/gpu-support/
+
+
+# sudo docker run -d -v /data/.xinference:/root/.xinference -v /data/xx:/data/xx -v /data/.cache/huggingface:/root/.cache/huggingface -v /data/.cache/modelscope:/root/.cache/modelscape -e XINFERENCE_HOME=/root/.xinference -e XINFERENCE_MODEL_SRC=modelscope -p 9997:9997 --gpus all  --restart always harbor-ai.sunwoda-evb.com/x/xinference:v0.14.2 xinference-local -H 0.0.0.0
