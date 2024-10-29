@@ -80,6 +80,19 @@ def llm_response(prompt, content):
     return result
 llm_response("hello", "你是谁")
 ---
+!curl -v http://qwen2-5.ns-profile.svc.cluster.local/openai/v1/completions \
+-H "content-type: application/json" -H "Host: qwen2-5.ns-profile.svc.cluster.local" \
+-d '{"model": "Qwen2.5-72B-Instruct-GPTQ-Int4", "prompt": "Write a poem about colors", "stream":false, "max_tokens": 30}'
+---
+!curl -v http://llama3.ns-profile.svc.cluster.local/openai/v1/completions \
+-H "content-type: application/json" -H "Host: llama3.ns-profile.svc.cluster.local" \
+-d '{"model": "Meta-Llama-3-8B-Instruct", "prompt": "Write a poem about colors", "stream":false, "max_tokens": 30}'
+---
+!curl -H "content-type:application/json" -H "Host: llama3.ns-profile.svc.cluster.local" \
+-v http://llama3.ns-profile.svc.cluster.local/openai/v1/chat/completions \
+-d '{"model":"Meta-Llama-3-8B-Instruct","messages":[{"role":"system","content":"You are an assistant that speaks like Shakespeare."},{"role":"user","content":"Write a poem about colors"}],"max_tokens":30,"stream":false}'
+
+---
 apiVersion: serving.kserve.io/v1beta1
 kind: InferenceService
 metadata:
