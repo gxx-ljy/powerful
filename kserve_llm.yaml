@@ -32,8 +32,53 @@ spec:
       persistentVolumeClaim:
         claimName: llm
         readOnly: true
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: test
+  namespace: ns-profile
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: ai.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: qwen2-5-predictor-00001-private
+                port:
+                  number: 80
+            path: /openai/v1/chat
+            pathType: ImplementationSpecific
+---
+def llm_response(prompt, content):
+    import json
+    import requests
 
+    data = {
+        "model": "Qwen2.5-72B-Instruct-GPTQ-Int4",
+        "messages": [
+            {
+                "role": "system",
+                "content": prompt
+            },
+            {
+                "role": "user",
+                "content": content
+            }
+        ],
+        "max_tokens": 20000,
+        "temperature": 0,
+        # "stream": False
+    }
 
+    # response = json.loads(requests.post(url = "http://qwen2-5.ns-profile.svc.cluster.local/openai/v1/completions", json=data).text)
+    response = requests.post(url = "https://ai.com/openai/v1/chat/completions", json=data).json()
+
+    result = response#['choices'][0]['message']['content']
+    return result
+llm_response("hello", "你是谁")
 ---
 apiVersion: serving.kserve.io/v1beta1
 kind: InferenceService
