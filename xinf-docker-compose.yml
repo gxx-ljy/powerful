@@ -30,3 +30,4 @@ services:
 
 
 # sudo docker run -d -v /data/.xinference:/root/.xinference -v /data/xx:/data/xx -v /data/.cache/huggingface:/root/.cache/huggingface -v /data/.cache/modelscope:/root/.cache/modelscape -e XINFERENCE_HOME=/root/.xinference -e XINFERENCE_MODEL_SRC=modelscope -p 9997:9997 --gpus all  --restart always harbor-ai.sunwoda-evb.com/x/xinference:v0.14.2 xinference-local -H 0.0.0.0
+# sudo docker run -d -v /root/data/.xinference:/root/.xinference -v /root/data/model:/root/data/model -v /root/data/.cache/huggingface:/root/.cache/huggingface -v /root/data/.cache/modelscope:/root/.cache/modelscape -e XINFERENCE_HOME=/root/.xinference -e XINFERENCE_MODEL_SRC=modelscope -p 8000:9997 --gpus all  --restart always --shm-size 20g registry.cn-hangzhou.aliyuncs.com/xprobe_xinference/xinference:latest xinference-local -H 0.0.0.0
