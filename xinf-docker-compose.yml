@@ -33,3 +33,5 @@ services:
 # sudo docker run -d -v /root/data/.xinference:/root/.xinference -v /root/data/model:/root/data/model -v /root/data/.cache/huggingface:/root/.cache/huggingface -v /root/data/.cache/modelscope:/root/.cache/modelscape -e XINFERENCE_HOME=/root/.xinference -e XINFERENCE_MODEL_SRC=modelscope -p 8000:9997 --gpus all  --restart always --shm-size 20g registry.cn-hangzhou.aliyuncs.com/xprobe_xinference/xinference:latest xinference-local -H 0.0.0.0
 # https://github.com/xorbitsai/inference/issues/1622
 #https://www.alexandria.unisg.ch/server/api/core/bitstreams/d76c9af5-2ca7-49e6-a2ba-c1ddc5cac381/content#page=432
+# nohup xinference-local --host 0.0.0.0 --port 9997 > /data/nfs/nfs-client-provisioner/guoxinxin-profile-llm-pvc-d335681e-0acb-4d1b-9118-eb93ea8f94ec/xinf.log 2>&1 &
+
